@@ -1,0 +1,17 @@
+{
+  "name": "llm-gateway-infra",
+  "private": true,
+  "packageManager": "pnpm@9.15.4",
+  "main": "index.ts",
+  "scripts": {
+    "build": "tsc"
+  },
+  "dependencies": {
+    "@pulumi/gcp": "^8.0.0",
+    "@pulumi/pulumi": "^3.0.0",
+    "@progression-labs/infra": "github:progression-labs-development/infra"
+  },
+  "devDependencies": {
+    "typescript": "^5.0.0"
+  }
+}

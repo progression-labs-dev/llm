@@ -1,0 +1,42 @@
+name: Publish TypeScript Client
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "client/**"
+
+jobs:
+  publish:
+    name: Publish to GitHub Packages
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          package_json_file: client/package.json
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          registry-url: https://npm.pkg.github.com
+          cache: pnpm
+          cache-dependency-path: client/pnpm-lock.yaml
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+        working-directory: client
+
+      - name: Build
+        run: pnpm run build
+        working-directory: client
+
+      - name: Publish (skip if version already exists)
+        run: pnpm publish --no-git-checks || true
+        working-directory: client
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

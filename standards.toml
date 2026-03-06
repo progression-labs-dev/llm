@@ -1,0 +1,14 @@
+[metadata]
+tier = "internal"
+status = "active"
+
+[extends]
+registry = "github:progression-labs-development/standards"
+rulesets = ["base-internal", "python-internal"]
+
+[process.ci]
+enabled = true
+
+# Enforce network blocking in unit tests (requires conform >= 0.11.0)
+# [code.testing]
+# no_network = true

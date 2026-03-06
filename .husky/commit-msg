@@ -1,0 +1,1 @@
+npx @progression-labs-development/conform process check-commit "$1"
