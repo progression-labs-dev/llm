@@ -7,6 +7,7 @@ Includes an optional LRU cache to avoid redundant API calls for repeated texts.
 
 import asyncio
 from collections import OrderedDict
+from typing import cast
 
 import litellm
 from pydantic import BaseModel
@@ -117,7 +118,7 @@ async def embed(
         return [item["embedding"] for item in response.data]
 
     # Check cache for each text
-    results: list[list[float] | None] = [None] * len(texts)
+    results: list[list[int | float] | None] = cast(list[list[int | float] | None], [None] * len(texts))
     texts_to_embed: list[tuple[int, str]] = []
 
     for i, text in enumerate(texts):

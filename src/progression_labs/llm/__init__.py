@@ -64,8 +64,6 @@ if TYPE_CHECKING:
         get_embedding_cache_stats,
         retrieve_and_generate,
     )
-    from progression_labs.llm.server.app import app as server_app
-
 __all__ = [
     # Version
     "__version__",
@@ -113,8 +111,6 @@ __all__ = [
     "configure_embedding_cache",
     "get_embedding_cache_stats",
     "CacheStats",
-    # Server
-    "server_app",
 ]
 
 
@@ -159,8 +155,4 @@ def __getattr__(name: str):
         from progression_labs.llm import rag
 
         return getattr(rag, name)
-    if name == "server_app":
-        from progression_labs.llm.server.app import app
-
-        return app
     raise AttributeError(f"module {__name__!r} has no attribute {name!r}")

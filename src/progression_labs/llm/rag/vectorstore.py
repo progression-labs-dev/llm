@@ -8,6 +8,7 @@ The internal storage implementation is fully encapsulated - no direct access
 to the underlying ChromaDB client or collection is exposed.
 """
 
+from collections.abc import Sequence
 from dataclasses import dataclass
 from typing import cast
 
@@ -140,8 +141,9 @@ class VectorStore:
         """
         query_embedding = await embed_single(query, model=self.embedding_model)
 
+        embeddings = cast(list[Sequence[int | float]], [query_embedding])
         results = self.__collection.query(
-            query_embeddings=[query_embedding],
+            query_embeddings=embeddings,
             n_results=top_k,
             where=where,
             include=["documents", "metadatas", "distances"],

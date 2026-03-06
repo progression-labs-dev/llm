@@ -1,5 +1,0 @@
-config:
-  gcp:project: ${GOOGLE_PROJECT}
-  gcp:region: europe-west2
-  llm-gateway:environment: dev
-encryptionsalt: v1:8bYMxDjCQDU=:v1:j6fRbK5ykCwRvlxQ:Ys0PBCkS/LCbA16ihGJwOCxZn8l76w==

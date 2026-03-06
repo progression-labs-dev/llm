@@ -39,27 +39,3 @@ jobs:
           uv-sync-args: "--extra all --extra dev"
           pytest-args: '-m "not integration" --tb=short -v'
           coverage-threshold: "80"
-
-  openapi-check:
-    name: OpenAPI Spec Check
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Set up Python 3.13
-        uses: actions/setup-python@v5
-        with:
-          python-version: "3.13"
-
-      - name: Install uv
-        uses: astral-sh/setup-uv@v4
-
-      - name: Install dependencies
-        run: uv sync --extra server
-
-      - name: Generate OpenAPI spec
-        run: uv run python scripts/export_openapi.py
-
-      - name: Check for drift
-        run: git diff --exit-code openapi.json || (echo "openapi.json is out of date. Run 'uv run python scripts/export_openapi.py' and commit." && exit 1)

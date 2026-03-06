@@ -2,7 +2,7 @@
 
 ## Project Overview
 
-llm is a Python library for LLM interactions with OpenAPI client generation. Built with Python.
+llm is a Python library for LLM interactions. Built with Python.
 
 - **Tier:** internal
 - **Package:** `llm`
@@ -21,8 +21,6 @@ llm is a Python library for LLM interactions with OpenAPI client generation. Bui
 ```
 src/
   progression_labs/   # Main library code
-client/              # Generated OpenAPI client
-scripts/             # Build and generation scripts
 tests/               # Test suite
 ```
 
@@ -54,5 +52,4 @@ Use the MCP tools to query standards at any time:
 ## Project-Specific Notes
 
 - Uses `uv` as the Python package manager (not pip/poetry)
-- The `client/` directory contains a generated OpenAPI client — regenerate from `openapi.json` rather than editing directly
-- Has Docker support for local development
+- The HTTP gateway has been split into a separate repo (`llm-gateway`)

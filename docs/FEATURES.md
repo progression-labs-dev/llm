@@ -2,7 +2,7 @@
 type: features
 title: LLM SDK Features
 owner: chris-little
-last_reviewed: 2026-03-03
+last_reviewed: 2026-03-06
 ---
 
 # LLM SDK Features
@@ -11,6 +11,7 @@ last_reviewed: 2026-03-03
 
 - Unified API across multiple LLM providers
 - Structured output with validated models
-- Optional HTTP gateway support
 - Evaluation and observability integration
-- Generated client assets for external use
+- Simple RAG with vector search
+- Metrics bridge (Langfuse to OTLP)
+- Prompt management via Langfuse
