@@ -24,7 +24,7 @@ jobs:
           uv-sync-args: "--extra all --extra dev"
           gcp-workload-identity-provider: ${{ vars.GCP_WORKLOAD_IDENTITY_PROVIDER }}
           gcp-service-account: ${{ vars.GCP_SERVICE_ACCOUNT }}
-          conform-package: "@progression-labs-development/conform"
+          conform-package: "@progression-labs/conform"
 
   test:
     name: Test
