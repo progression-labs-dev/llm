@@ -3,7 +3,7 @@ tier = "internal"
 status = "active"
 
 [extends]
-registry = "github:progression-labs-development/standards"
+registry = "github:progression-labs-dev/standards"
 rulesets = ["base-internal", "python-internal"]
 
 [process.ci]

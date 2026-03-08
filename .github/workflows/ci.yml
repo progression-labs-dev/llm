@@ -19,12 +19,12 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - uses: progression-labs-development/github-actions/python-standards-check@main
+      - uses: progression-labs-dev/github-actions/python-standards-check@main
         with:
           uv-sync-args: "--extra all --extra dev"
           gcp-workload-identity-provider: ${{ vars.GCP_WORKLOAD_IDENTITY_PROVIDER }}
           gcp-service-account: ${{ vars.GCP_SERVICE_ACCOUNT }}
-          conform-package: "@progression-labs-development/conform"
+          conform-package: "@progression-labs/conform"
 
   test:
     name: Test
@@ -34,7 +34,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - uses: progression-labs-development/github-actions/python-test@main
+      - uses: progression-labs-dev/github-actions/python-test@main
         with:
           uv-sync-args: "--extra all --extra dev"
           pytest-args: '-m "not integration" --tb=short -v'
