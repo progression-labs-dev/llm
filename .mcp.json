@@ -1,8 +1,0 @@
-{
-  "mcpServers": {
-    "standards": {
-      "command": "npx",
-      "args": ["@standards-kit/conform", "mcp"]
-    }
-  }
-}

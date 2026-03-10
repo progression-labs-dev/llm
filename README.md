@@ -105,18 +105,18 @@ curl -X POST https://llm-gateway-api-container-dev-10492061315.europe-west2.run.
 Install the client from GitHub Packages:
 
 ```bash
-pnpm add @progression-labs-development/llm-client
+pnpm add @progression-labs-dev/llm-client
 ```
 
-Consumers need a `.npmrc` in their project root to resolve the `@progression-labs-development` scope:
+Consumers need a `.npmrc` in their project root to resolve the `@progression-labs-dev` scope:
 
 ```ini
-@progression-labs-development:registry=https://npm.pkg.github.com
+@progression-labs-dev:registry=https://npm.pkg.github.com
 //npm.pkg.github.com/:_authToken=${GITHUB_TOKEN}
 ```
 
 ```typescript
-import { LLMClient } from "@progression-labs-development/llm-client";
+import { LLMClient } from "@progression-labs-dev/llm-client";
 
 const client = new LLMClient({
   baseUrl: "https://llm-gateway-api-container-dev-10492061315.europe-west2.run.app",

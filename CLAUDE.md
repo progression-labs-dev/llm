@@ -28,7 +28,7 @@ See `docs/` for detailed architecture documentation.
 
 ## Standards & Guidelines
 
-This project uses [@progression-labs-development/conform](https://github.com/progression-labs-development/standards-kit) for coding standards.
+This project uses [@progression-labs-dev/conform](https://github.com/progression-labs-dev/standards-kit) for coding standards.
 
 - **Config:** `standards.toml` (extends `python-internal` from the standards registry)
 - **Guidelines:** https://chrismlittle123.github.io/standards/
