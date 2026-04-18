@@ -6,9 +6,35 @@ status = "active"
 registry = "github:progression-labs-dev/standards"
 rulesets = ["base-internal", "python-internal"]
 
+[code.security.secrets]
+enabled = true
+scan_mode = "branch"
+base_branch = "main"
+
+[code.security.dotenv]
+enabled = true
+
 [process.ci]
 enabled = true
 
-# Enforce network blocking in unit tests (requires conform >= 0.11.0)
-# [code.testing]
-# no_network = true
+[process.commits]
+enabled = true
+types = ["feat", "fix", "chore", "docs", "refactor", "test", "style", "perf", "ci", "build"]
+require_scope = false
+max_subject_length = 100
+
+[process.branches]
+enabled = true
+pattern = "^(feat|fix|chore|docs|refactor|test|ci)/[a-z0-9-]+$"
+exclude = ["main"]
+
+[process.docs]
+enabled = true
+required_files = ["README.md", "CLAUDE.md"]
+allowlist = ["README.md", "CLAUDE.md"]
+
+[process.forbidden_files]
+enabled = true
+files = [".env", ".env.*", "credentials.json", "service-account.json", "*.pem", "*.key", "*.p12", "*.pfx", "id_rsa", "id_ed25519", "*.tfvars", "*.tfstate"]
+ignore = [".env.example"]
+message = "Sensitive files must not be committed"
