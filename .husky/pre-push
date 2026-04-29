@@ -1,1 +1,1 @@
-npx @progression-labs-dev/conform process check-branch
+pnpm dlx @progression-labs/conform process check-branch

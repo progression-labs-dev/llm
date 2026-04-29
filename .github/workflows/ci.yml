@@ -18,24 +18,85 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-
-      - uses: progression-labs-dev/github-actions/python-standards-check@main
         with:
-          uv-sync-args: "--extra all --extra dev"
-          gcp-workload-identity-provider: ${{ vars.GCP_WORKLOAD_IDENTITY_PROVIDER }}
-          gcp-service-account: ${{ vars.GCP_SERVICE_ACCOUNT }}
-          conform-package: "@progression-labs/conform"
+          fetch-depth: 2
+
+      - name: Setup pnpm (standalone)
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10
+
+      - name: Setup Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: "22"
+
+      - name: Setup Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.13"
+
+      - name: Setup uv
+        uses: astral-sh/setup-uv@v4
+
+      - name: Configure npm registry for conform
+        run: |
+          echo "@progression-labs:registry=https://europe-west2-npm.pkg.dev/progression-labs-platform/platform-npm-packages-registry-platform/" >> ~/.npmrc
+
+      - name: Authenticate to Google Cloud
+        if: vars.GCP_WORKLOAD_IDENTITY_PROVIDER != '' && vars.GCP_SERVICE_ACCOUNT != ''
+        id: gcp-auth
+        uses: google-github-actions/auth@v3
+        with:
+          workload_identity_provider: ${{ vars.GCP_WORKLOAD_IDENTITY_PROVIDER }}
+          service_account: ${{ vars.GCP_SERVICE_ACCOUNT }}
+          token_format: access_token
+
+      - name: Configure npm auth for Artifact Registry
+        if: steps.gcp-auth.outputs.access_token != ''
+        run: |
+          echo "//europe-west2-npm.pkg.dev/progression-labs-platform/platform-npm-packages-registry-platform/:_authToken=${{ steps.gcp-auth.outputs.access_token }}" >> ~/.npmrc
+
+      - name: Install dependencies
+        run: uv sync --extra all --extra dev
+
+      - name: Add venv to PATH
+        run: echo "$PWD/.venv/bin" >> "$GITHUB_PATH"
+
+      - name: Conform audit
+        run: pnpm dlx @progression-labs/conform audit
+
+      - name: Conform check
+        run: pnpm dlx @progression-labs/conform check
 
   test:
     name: Test
     runs-on: ubuntu-latest
-    needs: [standards]
 
     steps:
       - uses: actions/checkout@v4
 
-      - uses: progression-labs-dev/github-actions/python-test@main
+      - name: Setup Python
+        uses: actions/setup-python@v6
         with:
-          uv-sync-args: "--extra all --extra dev"
-          pytest-args: '-m "not integration" --tb=short -v'
-          coverage-threshold: "80"
+          python-version: "3.13"
+
+      - name: Setup uv
+        uses: astral-sh/setup-uv@v4
+
+      - name: Install dependencies
+        run: uv sync --extra all --extra dev
+
+      - name: Run tests with coverage
+        run: uv run pytest -m "not integration" --tb=short -v --cov --cov-report=json --cov-report=term-missing
+
+      - name: Check coverage threshold
+        run: |
+          threshold=80
+          coverage=$(python -c "import json; print(json.load(open('coverage.json'))['totals']['percent_covered_display'])")
+          echo "Coverage: ${coverage}%"
+          echo "Threshold: ${threshold}%"
+          if [ "$(echo "${coverage} < ${threshold}" | bc -l)" -eq 1 ]; then
+            echo "::error::Coverage ${coverage}% is below the required threshold of ${threshold}%"
+            exit 1
+          fi

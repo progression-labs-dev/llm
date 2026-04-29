@@ -138,7 +138,9 @@ async def embed(
             results[original_idx] = embedding
             await _set_cached_embedding(text, model, embedding)
 
-    return results  # type: ignore[return-value]
+    # All positions should now be filled
+    assert all(r is not None for r in results), "Missing embeddings for some texts"
+    return cast(list[list[float]], results)
 
 
 async def embed_single(
