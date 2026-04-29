@@ -2,7 +2,7 @@
 type: architecture
 title: LLM SDK Architecture
 owner: chris-little
-last_reviewed: 2026-03-06
+last_reviewed: 2026-04-29
 tracks: src
 ---
 
